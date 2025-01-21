@@ -6,7 +6,7 @@ A simple python tool for getting bacterial taxonomy and gram stain information f
 Currently, bactax can only be installed from Github:
 
 ```sh
-pip install https://github.com/abates20/bactax
+pip install git+https://github.com/abates20/bactax
 ```
 
 ## Usage
