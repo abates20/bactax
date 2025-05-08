@@ -1,7 +1,7 @@
 class TaxonomyFileNotFoundError(FileNotFoundError):
 
     def __init__(self):
-        msg = "No taxonomy data file was found. Please download it using `bactax.ncbi.update_tax_data()`"
+        msg = "No taxonomy data file was found. Please download it using `bactax.update()`"
         super().__init__(msg)
 
 

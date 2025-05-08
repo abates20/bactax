@@ -39,7 +39,7 @@ def download_tax_data(save_path=None, show_progress: bool = True):
     to a gzip-compressed csv.
     """
     if save_path is None:
-        save_path = f"taxonomy_{date.today()}.gz"
+        save_path = f"taxonomy_{date.today()}.csv.gz"
 
     with TemporaryDirectory() as tmpdir:
         tmpdir = Path(tmpdir)

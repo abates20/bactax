@@ -5,7 +5,7 @@ description = "A simple python tool for getting bacterial taxonomy and gram stai
 authors = ["Adam Bates <adambates923@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-include = ["bactax/taxonomy_*.gz"]
+include = ["bactax/taxonomy_*.csv.gz"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
