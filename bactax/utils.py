@@ -9,7 +9,7 @@ def get_taxonomy_data_filepath() -> Optional[Path]:
     """
     Gets the filepath to the gzip taxonomy file (if there is one downloaded).
     """
-    pattern = re.compile(r"^taxonomy_\d{4}-\d{2}-\d{2}\.gz$")
+    pattern = re.compile(r"^taxonomy_\d{4}-\d{2}-\d{2}\.csv\.gz$")
     for file in resources.files(__package__).iterdir():
         if pattern.match(file.name):
             return file
@@ -20,7 +20,7 @@ def new_taxonomy_data_filepath() -> Path:
     """
     Generates a name for the gzip taxonomy file based on today's date.
     """
-    return resources.files(__package__) / f"taxonomy_{date.today()}.gz"
+    return resources.files(__package__) / f"taxonomy_{date.today()}.csv.gz"
 
 
 def last_taxonomy_update() -> Optional[date]:

@@ -8,7 +8,7 @@ from . import utils, errors
 
 
 _TAXONOMY_ORDER = [
-    "superkingdom",
+    "domain",
     "kingdom",
     "phylum",
     "class",
@@ -46,8 +46,8 @@ class Taxonomy:
         The phylum of the taxonomy.
     kingdom : str, optional
         The kingdom of the taxonomy.
-    superkingdom : str, optional
-        The superkingdom of the taxonomy.
+    domain : str, optional
+        The domain of the taxonomy.
     """
 
     def __init__(
@@ -62,7 +62,7 @@ class Taxonomy:
         class_: Optional[str] = None,
         phylum: Optional[str] = None,
         kingdom: Optional[str] = None,
-        superkingdom: Optional[str] = None,
+        domain: Optional[str] = None,
     ):
         self._name: Optional[str] = name
         self.ncbi_id: Optional[int] = ncbi_id
@@ -73,7 +73,7 @@ class Taxonomy:
         self.class_: Optional[str] = class_
         self.phylum: Optional[str] = phylum
         self.kingdom: Optional[str] = kingdom
-        self.superkingdom: Optional[str] = superkingdom
+        self.domain: Optional[str] = domain
 
     def __repr__(self):
         args = {k: v for k, v in vars(self).items() if v is not None}
@@ -193,7 +193,7 @@ def get_taxonomy(**kwargs) -> Taxonomy:
                     f"More than one possible value found for '{tax_level}'. Using first value"
                 )
                 print(all_values)
-            taxonomy[tax_level] = all_values[0]
+            taxonomy[tax_level] = all_values.first()
 
     # Change names back to what the Taxonomy object expects
     taxonomy["name"] = taxonomy.pop("tax_name", None)

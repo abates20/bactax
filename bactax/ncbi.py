@@ -1,5 +1,4 @@
 from typing import Optional
-from itertools import zip_longest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from zipfile import ZipFile
@@ -10,7 +9,7 @@ import polars as pl
 import requests
 from rich.progress import track
 
-from . import utils
+from . import utils, errors
 
 
 def update(show_progress: bool = True):
@@ -39,7 +38,7 @@ def download_tax_data(save_path=None, show_progress: bool = True):
     to a gzip-compressed csv.
     """
     if save_path is None:
-        save_path = f"taxonomy_{date.today()}.gz"
+        save_path = f"taxonomy_{date.today()}.csv.gz"
 
     with TemporaryDirectory() as tmpdir:
         tmpdir = Path(tmpdir)
@@ -69,12 +68,13 @@ def download_tax_data(save_path=None, show_progress: bool = True):
             "class",
             "phylum",
             "kingdom",
-            "superkingdom",
+            "realm",
+            "domain",
         ]
         taxdata = _read_dmp(tax_file, columns)
 
         # Save the bacteria taxonomy info in a compact format
-        bacteria_tax = taxdata.filter(pl.col("superkingdom") == "Bacteria")
+        bacteria_tax = taxdata.filter(pl.col("domain") == "Bacteria")
         with gzip.open(save_path, "wb") as f:
             bacteria_tax.write_csv(f)
 
@@ -96,7 +96,7 @@ def _download_url(
     r = requests.get(url, stream=True)
     total_size = r.headers.get("content-length", None)
     if total_size is not None:
-        total_size = (int(total_size) / chunk_size) + 1
+        total_size = int(total_size) / chunk_size
 
     with open(save_path, "wb") as fd:
         if show_progress:
@@ -114,18 +114,23 @@ def _download_url(
     return save_path
 
 
-def _read_dmp(file: str, columns: list):
+@errors.DmpParseError.enforce_error_type
+def _read_dmp(file: str, columns: Optional[list] = None):
     """
     Reads a .dmp file from NCBI and returns a polars
     DataFrame with the data.
     """
-    data = {c: [] for c in columns}
-    with open(file, "r") as f:
-        for line in f:
-            items = line.rstrip("\t|\n").split("\t|\t")
+    # Read in the dataframe
+    dataframe = (
+        pl.read_csv(file, has_header=False, separator="|", quote_char="\t")
+        .drop(pl.last())  # Drop last column (all null)
+        .select(
+            pl.all().str.strip_chars("\t")  # Strip off any remaining tab characters
+        )
+    )
 
-            for col, item in zip_longest(columns, items):
-                data[col].append(item)
+    # Set the column names if provided
+    if columns is not None:
+        dataframe.columns = columns
 
-    dataframe = pl.DataFrame(data)
     return dataframe
