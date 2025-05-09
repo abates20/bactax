@@ -38,5 +38,5 @@ class NoTaxonomyDataError(BactaxError):
 class DmpParseError(BactaxError):
 
     def __init__(self):
-        msg = f"An error occured parsing the .dmp file"
+        msg = "An error occured parsing the .dmp file"
         super().__init__(msg)
