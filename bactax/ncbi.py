@@ -96,7 +96,7 @@ def _download_url(
     r = requests.get(url, stream=True)
     total_size = r.headers.get("content-length", None)
     if total_size is not None:
-        total_size = (int(total_size) / chunk_size) + 1
+        total_size = (int(total_size) / chunk_size)
 
     with open(save_path, "wb") as fd:
         if show_progress:
