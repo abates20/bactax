@@ -7,7 +7,7 @@ from .gram import (
     gram_stain as gram_stain,
     is_gram_negative as is_gram_negative,
     is_gram_positive as is_gram_positive,
-    Gram as Gram
+    Gram as Gram,
 )
 from .errors import (
     NoTaxonomyDataError as NoTaxonomyDataError,

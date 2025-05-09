@@ -1,10 +1,11 @@
 import functools
 
+
 class BactaxError(Exception):
-    
+
     @classmethod
     def enforce_error_type(cls, func):
-        
+
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             try:
@@ -16,7 +17,7 @@ class BactaxError(Exception):
                     raise
             else:
                 return result
-            
+
         return wrapper
 
 

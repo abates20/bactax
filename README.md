@@ -1,14 +1,14 @@
-# bactax
+# bactax 0.2.0
 
 A simple python tool for getting bacterial taxonomy and gram stain information
 from NCBI taxonomy data.
 
 ## Installation
 
-Currently, bactax can only be installed from Github:
+The most recently released version of bactax can be downloaded with pip:
 
 ```sh
-pip install git+https://github.com/abates20/bactax
+pip install bactax
 ```
 
 ## Usage
@@ -38,7 +38,7 @@ gram_stain = bactax.gram_stain(genus=genus) # returns Gram.NEGATIVE
 
 `bactax` uses data from NCBI's taxonomy database. This data is downloaded and
 stored in a gzipped csv within the package. Since NCBI regularly updates their
-data, bactax provides an method to download the latest taxonomy database from
+data, bactax provides a method to download the latest taxonomy database from
 NCBI.
 
 ```python

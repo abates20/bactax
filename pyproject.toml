@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bactax"
-version = "0.1.0"
+version = "0.2.0"
 description = "A simple python tool for getting bacterial taxonomy and gram stain information from NCBI taxonomy data."
 authors = ["Adam Bates <adambates923@gmail.com>"]
 license = "MIT"

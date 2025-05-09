@@ -96,7 +96,7 @@ def _download_url(
     r = requests.get(url, stream=True)
     total_size = r.headers.get("content-length", None)
     if total_size is not None:
-        total_size = (int(total_size) / chunk_size)
+        total_size = int(total_size) / chunk_size
 
     with open(save_path, "wb") as fd:
         if show_progress:
@@ -123,9 +123,9 @@ def _read_dmp(file: str, columns: Optional[list] = None):
     # Read in the dataframe
     dataframe = (
         pl.read_csv(file, has_header=False, separator="|", quote_char="\t")
-        .drop(pl.last()) # Drop last column (all null)
+        .drop(pl.last())  # Drop last column (all null)
         .select(
-            pl.all().str.strip_chars("\t") # Strip off any remaining tab characters
+            pl.all().str.strip_chars("\t")  # Strip off any remaining tab characters
         )
     )
 
